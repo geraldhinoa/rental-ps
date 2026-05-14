@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="id" class="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,7 +82,7 @@
                 </div>
                 
                 <!-- Desktop Menu -->
-                <div class="hidden md:block">
+                <div class="hidden lg:block">
                     <div class="ml-10 flex items-center space-x-6 translate-y-1">
                         <a href="/#katalog" class="hover:text-blue-400 px-3 py-2 rounded-md text-sm font-bold tracking-wide transition-colors">Katalog Mesin</a>
                         <a href="/booking" class="hover:text-blue-400 px-3 py-2 rounded-md text-sm font-bold tracking-wide transition-colors text-white">Pesan Sekarang</a>
@@ -92,7 +92,7 @@
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="-mr-2 flex md:hidden">
+                <div class="-mr-2 flex lg:hidden">
                     <button @click="open = !open" class="text-slate-400 hover:text-white focus:outline-none p-2">
                         <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                             <path :class="open ? 'hidden' : 'inline-flex'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -104,7 +104,7 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div x-show="open" x-collapse class="md:hidden glass-panel border-t border-slate-800">
+        <div x-show="open" x-collapse class="lg:hidden glass-panel border-t border-slate-800">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
                 <a href="/#katalog" class="block px-3 py-3 rounded-md text-base font-bold text-slate-300 hover:bg-white/5">Katalog Mesin</a>
                 <a href="/booking" class="block px-3 py-3 rounded-md text-base font-bold text-blue-400 hover:bg-white/5">Pesan Sekarang</a>

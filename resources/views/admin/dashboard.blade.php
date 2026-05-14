@@ -32,7 +32,11 @@
             </div>
         </div>
         <h2 class="text-3xl font-bold tracking-tight text-white mb-1">{{ $activeRentals }} <span class="text-lg text-slate-500 font-normal">Sewa</span></h2>
-        <p class="text-xs text-slate-400">Sedang bermain sekarang</p>
+        <div class="flex gap-2 text-[10px] text-cyan-400 font-bold border-t border-white/5 pt-2 mt-1">
+            <span>{{ $activePS5 }} PS5</span> &bull; 
+            <span>{{ $activePS4 }} PS4</span> &bull; 
+            <span>{{ $activePS3 }} PS3</span>
+        </div>
     </div>
 
     <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group">
@@ -55,8 +59,21 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
             </div>
         </div>
-        <h2 class="text-3xl font-bold tracking-tight text-white mb-1">12/30</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-white mb-1">{{ $availableMachines }}/{{ $totalMachines }}</h2>
         <p class="text-xs text-slate-400">Mesin sedang menganggur</p>
+    </div>
+</div>
+
+<!-- Revenue Chart -->
+<div class="glass-panel p-6 rounded-2xl relative overflow-hidden mb-8">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-white">Tren Pendapatan (7 Hari Terakhir)</h3>
+        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+        </div>
+    </div>
+    <div class="relative h-72 w-full">
+        <canvas id="revenueChart"></canvas>
     </div>
 </div>
 
@@ -84,7 +101,30 @@
                     <td class="px-6 py-4 text-white font-medium">#TRX-0{{ $trx->id * 100 }}</td>
                     <td class="px-6 py-4 text-slate-300">{{ $trx->user->name ?? 'Guest' }}</td>
                     <td class="px-6 py-4 text-ps-neon cursor-pointer hover:underline">{{ $trx->inventory->name ?? 'PS Unit' }}</td>
-                    <td class="px-6 py-4 text-slate-400">{{ \Carbon\Carbon::parse($trx->start_time)->format('H:i') }} (Sampai {{ \Carbon\Carbon::parse($trx->end_time)->format('H:i') }})</td>
+                    <td class="px-6 py-4 text-slate-400">
+                        {{ \Carbon\Carbon::parse($trx->start_time)->format('H:i') }}
+                        @if($trx->status == 'active')
+                            <div class="mt-1" x-data="{
+                                end: {{ \Carbon\Carbon::parse($trx->end_time)->timestamp * 1000 }},
+                                now: new Date().getTime(),
+                                timeLeft() {
+                                    let diff = this.end - this.now;
+                                    if(diff < 0) return '00:00:00';
+                                    let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                    let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                                    let s = Math.floor((diff % (1000 * 60)) / 1000);
+                                    return h.toString().padStart(2, '0') + ':' + m.toString().padStart(2, '0') + ':' + s.toString().padStart(2, '0');
+                                }
+                            }" x-init="setInterval(() => now = new Date().getTime(), 1000)">
+                                <div :class="(end - now) < 0 ? 'bg-red-500/20 text-red-400 border-red-500/50' : 'bg-blue-500/20 text-blue-400 border-blue-500/50'" class="px-2 py-1 rounded text-xs font-mono font-bold border inline-block">
+                                    <span x-text="timeLeft()"></span>
+                                </div>
+                                <span x-show="(end - now) < 0" class="text-[10px] text-red-500 block uppercase font-bold mt-1 animate-pulse">!! Waktu Habis !!</span>
+                            </div>
+                        @else
+                            <span class="text-xs text-slate-500 block">(Sampai {{ \Carbon\Carbon::parse($trx->end_time)->format('H:i') }})</span>
+                        @endif
+                    </td>
                     <td class="px-6 py-4">
                         @if($trx->status === 'active')
                             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
@@ -102,7 +142,15 @@
                     </td>
                     <td class="px-6 py-4 text-right">
                         @if($trx->status === 'pending')
-                            <button class="text-blue-400 hover:text-blue-300 transition font-medium border border-blue-500/30 px-3 py-1 rounded-lg">Proses</button>
+                            <form action="{{ route('admin.bookings.process', $trx->id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" onclick="return confirm('Mulai mainkan pesanan ini?')" class="text-blue-400 hover:text-blue-300 transition font-medium border border-blue-500/30 px-3 py-1 rounded-lg">Proses</button>
+                            </form>
+                        @elseif($trx->status === 'active')
+                            <form action="{{ route('admin.bookings.finish', $trx->id) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" onclick="return confirm('Selesaikan pesanan ini dan kembalikan stok mesin?')" class="text-green-400 hover:text-green-300 transition font-medium border border-green-500/30 px-3 py-1 rounded-lg">Selesai</button>
+                            </form>
                         @endif
                     </td>
                 </tr>
@@ -118,31 +166,97 @@
     </div>
 </div>
 
-<!-- Promo Engine Control -->
-<div class="mt-8 glass-panel rounded-2xl overflow-hidden p-6">
-    <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-        <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Kontrol Promo Hari Ini
-    </h3>
-    <form action="/admin/promo/toggle" method="POST" class="flex items-center gap-4">
-        @csrf
-        <input type="hidden" name="code" value="MARATHON35K">
-        <div class="flex-1 bg-slate-900/50 border border-slate-700 p-4 rounded-xl flex items-center justify-between">
-            <div>
-                <p class="text-white font-bold">Promo: MARATHON35K (Potongan Rp 45.000)</p>
-                <p class="text-slate-400 text-sm">Pelanggan bisa menggunakan kode ini di form pemesanan jika diaktifkan.</p>
-            </div>
-            @php $promo = \App\Models\Promo::where('code', 'MARATHON35K')->first(); @endphp
-            @if($promo && $promo->is_active)
-                <button type="submit" class="bg-red-500/10 text-red-400 border border-red-500/20 px-6 py-2 rounded-lg font-bold hover:bg-red-500/20 transition">
-                    Matikan Promo
-                </button>
-            @else
-                <button type="submit" class="bg-green-500/10 text-green-400 border border-green-500/20 px-6 py-2 rounded-lg font-bold hover:bg-green-500/20 transition">
-                    Nyalakan Promo
-                </button>
-            @endif
-        </div>
-    </form>
-</div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    
+    // Create gradient
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)'); // Blue-500 with opacity
+    gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($chartLabels) !!},
+            datasets: [{
+                label: 'Pendapatan (Rp)',
+                data: {!! json_encode($chartData) !!},
+                borderColor: '#3b82f6', // blue-500
+                backgroundColor: gradient,
+                borderWidth: 3,
+                pointBackgroundColor: '#1e293b',
+                pointBorderColor: '#3b82f6',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                fill: true,
+                tension: 0.4 // Smooth curve
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#94a3b8',
+                    bodyColor: '#fff',
+                    padding: 10,
+                    borderColor: 'rgba(59, 130, 246, 0.3)',
+                    borderWidth: 1,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(context.parsed.y);
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#64748b'
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.05)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#64748b',
+                        callback: function(value) {
+                            if (value >= 1000000) {
+                                return (value / 1000000) + 'M';
+                            } else if (value >= 1000) {
+                                return (value / 1000) + 'K';
+                            }
+                            return value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+@endpush

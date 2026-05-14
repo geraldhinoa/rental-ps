@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - GAMEZONE</title>
+    <title>Daftar Akun - GAMEZONE</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,7 +27,7 @@
     <div class="fixed top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] z-0 pointer-events-none"></div>
     <div class="fixed bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px] z-0 pointer-events-none"></div>
 
-    <div class="w-full max-w-md p-8 relative z-10 pt-10">
+    <div class="w-full max-w-md p-8 relative z-10 pt-10 my-8">
         <!-- Logo -->
         <a href="/" class="flex items-center justify-center gap-3 mb-10 group opacity-80 hover:opacity-100 transition">
             <div class="relative w-12 h-12 flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-800 rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.6)] transform rotate-45">
@@ -38,41 +38,50 @@
             <span class="font-display font-black text-3xl tracking-wider text-white uppercase ml-2">GAME<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">ZONE</span></span>
         </a>
 
-        <!-- Login Card -->
+        <!-- Register Card -->
         <div class="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden">
-            <h2 class="text-2xl font-display font-bold text-white mb-2 text-center">Masuk Akun Pelanggan</h2>
-            <p class="text-slate-400 text-sm text-center mb-8">Pusat kontrol dan riwayat sewa Anda.</p>
+            <h2 class="text-2xl font-display font-bold text-white mb-2 text-center">Buat Akun Dulu</h2>
+            <p class="text-slate-400 text-sm text-center mb-8">Bergabunglah untuk sewa konsol impianmu.</p>
 
-            @if(session('error'))
-                <div class="bg-slate-800/80 border border-red-500/50 text-red-400 font-medium text-sm rounded-xl p-4 mb-6 relative text-center">
-                    {{ session('error') }}
+            @if($errors->any())
+                <div class="bg-red-500/20 border border-red-500/50 text-red-300 font-medium text-xs rounded-xl p-4 mb-6 relative">
+                    <ul class="list-disc list-inside">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
 
-            @if(session('status'))
-                <div class="bg-slate-800/80 border border-green-500/50 text-green-400 font-medium text-sm rounded-xl p-4 mb-6 relative text-center">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form method="POST" action="/login" class="space-y-6" autocomplete="off">
+            <form method="POST" action="/register" class="space-y-5">
                 @csrf
                 <div>
-                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Email / Nomor WhatsApp</label>
-                    <input type="text" name="email" placeholder="contoh@email.com atau 0812..." required autocomplete="new-email" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
+                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Nama Lengkap</label>
+                    <input type="text" name="name" value="{{ old('name') }}" required class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
                 </div>
                 <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <label class="block text-xs font-bold tracking-widest text-slate-400 uppercase">Kata Sandi</label>
-                        <a href="{{ route('password.request') }}" class="text-xs font-medium text-blue-400 hover:text-blue-300 transition">Lupa Kata Sandi?</a>
-                    </div>
-                    <input type="password" name="password" required placeholder="********" autocomplete="new-password" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
+                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Nomor WhatsApp</label>
+                    <input type="text" name="phone_number" value="{{ old('phone_number') }}" required class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Email Aktif</label>
+                    <input type="email" name="email" value="{{ old('email') }}" required class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Kata Sandi</label>
+                    <input type="password" name="password" required class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Konfirmasi Kata Sandi</label>
+                    <input type="password" name="password_confirmation" required class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
                 </div>
                 
-                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 font-display font-bold py-4 text-white rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all active:scale-95 uppercase tracking-widest border border-white/10">
-                    Masuk Sekarang
+                <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 font-display font-bold py-4 text-white rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all active:scale-95 uppercase tracking-widest border border-white/10 mt-2">
+                    Daftar Sekarang
                 </button>
             </form>
+
+            <p class="text-[10px] text-slate-500 text-center mt-4">Dengan mendaftar, Anda menyetujui Syarat dan Ketentuan layanan kami.</p>
 
             <div class="relative flex items-center py-6">
                 <div class="flex-grow border-t border-white/10"></div>
@@ -89,11 +98,8 @@
                 </svg>
                 Lanjutkan dengan Google
             </a>
-
             <div class="mt-8 text-center space-y-4">
-                <div class="pt-4 border-t border-slate-800">
-                    <p class="text-sm text-slate-400">Belum punya akun? <a href="{{ route('register') }}" class="text-blue-400 hover:text-blue-300 font-semibold transition">Daftar di sini</a></p>
-                </div>
+                <p class="text-sm text-slate-400">Sudah punya akun? <a href="/login" class="text-blue-400 font-bold hover:text-blue-300">Masuk</a></p>
                 <a href="/" class="text-xs font-semibold text-slate-500 hover:text-white transition block">← Kembali ke Halaman Utama</a>
             </div>
         </div>

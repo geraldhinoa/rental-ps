@@ -20,6 +20,6 @@ class AdminMiddleware
             return $next($request);
         }
 
-        return redirect('/login')->with('error', 'Akses ditolak! Halaman ini khusus untuk Pimpinan.');
+        return redirect('/admin/login')->with('error', 'Akses ditolak! Halaman ini khusus untuk Pimpinan.');
     }
 }
