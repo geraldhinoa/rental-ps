@@ -18,6 +18,15 @@ Route::get('/booking/{id}/receipt', [BookingController::class, 'receipt'])->name
 Route::post('/payment/simulate/{id}', [BookingController::class, 'simulatePayment'])->name('payment.simulate');
 Route::any('/payment/finish', [BookingController::class, 'finishPayment'])->name('payment.finish');
 
+// Utility untuk clear cache di Hosting
+Route::get('/clear-cache', function() {
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    return 'Cache berhasil dibersihkan! Silakan kembali ke website.';
+});
+
 // Autentikasi
 Route::middleware('guest')->group(function () {
     Route::get('/login', function () {

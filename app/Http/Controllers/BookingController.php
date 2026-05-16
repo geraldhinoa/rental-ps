@@ -222,8 +222,7 @@ class BookingController extends Controller
 
         $orderId = $request->order_id ?? $request->transaction_id;
         if (!$orderId) {
-            // Coba lihat apakah Midtrans naruh di tempat lain
-            return redirect('/user/dashboard');
+            return redirect('/')->with('error', 'Status pembayaran sedang diproses oleh Midtrans. Harap tunggu beberapa saat.');
         }
 
         // Midtrans mengirim order_id contoh: TRX-ABCDEF-1715494291
@@ -233,11 +232,14 @@ class BookingController extends Controller
             $payment = Payment::where('transaction_reference', $baseTrx)->first();
             
             if ($payment) {
-                $payment->update(['payment_status' => 'success']);
-                return redirect()->route('booking.receipt', ['id' => $payment->booking_id])->with('success', 'Pembayaran berhasil dikonfirmasi secara otomatis via Midtrans!');
+                // Update status payment jika sukses
+                if($request->transaction_status == 'settlement' || $request->transaction_status == 'capture') {
+                    $payment->update(['payment_status' => 'success']);
+                }
+                return redirect()->route('booking.receipt', ['id' => $payment->booking_id])->with('success', 'Mengecek status pembayaran dari Midtrans...');
             }
         }
         
-        return redirect('/user/dashboard');
+        return redirect('/')->with('error', 'Pesanan tidak ditemukan.');
     }
 }
