@@ -87,7 +87,7 @@
                         <a href="/#katalog" class="hover:text-blue-400 px-3 py-2 rounded-md text-sm font-bold tracking-wide transition-colors">Katalog Mesin</a>
                         <a href="/booking" class="hover:text-blue-400 px-3 py-2 rounded-md text-sm font-bold tracking-wide transition-colors text-white">Pesan Sekarang</a>
                         <div class="w-px h-5 bg-white/10 mx-2"></div>
-                        <a href="/login" class="px-4 py-2 text-sm font-bold text-white hover:text-blue-400 transition-colors">Admin</a>
+                        <a href="/admin/login" class="px-4 py-2 text-sm font-bold text-white hover:text-blue-400 transition-colors">Admin</a>
                     </div>
                 </div>
 
@@ -108,7 +108,7 @@
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
                 <a href="/#katalog" class="block px-3 py-3 rounded-md text-base font-bold text-slate-300 hover:bg-white/5">Katalog Mesin</a>
                 <a href="/booking" class="block px-3 py-3 rounded-md text-base font-bold text-blue-400 hover:bg-white/5">Pesan Sekarang</a>
-                <a href="/login" class="block px-3 py-3 rounded-md text-base font-bold text-slate-300 hover:bg-white/5">Akses Admin</a>
+                <a href="/admin/login" class="block px-3 py-3 rounded-md text-base font-bold text-slate-300 hover:bg-white/5">Akses Admin</a>
             </div>
         </div>
     </nav>
