@@ -12,7 +12,7 @@
     <!-- Midtrans Snap Sandbox -->
     <script type="text/javascript"
         src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="Mid-client-C15PmBc6ttGv67E7"></script>
+        data-client-key="{{ env('MIDTRANS_CLIENT_KEY', 'SB-Mid-client-YOURKEY') }}"></script>
 
     <!-- Receipt Container (Thermal Paper Style) -->
     <div class="bg-white text-black font-mono text-sm relative shadow-2xl mx-auto drop-shadow-[0_20px_20px_rgba(0,0,0,0.5)]">
