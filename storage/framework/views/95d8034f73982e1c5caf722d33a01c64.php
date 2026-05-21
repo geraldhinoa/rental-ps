@@ -43,14 +43,15 @@
             <h2 class="text-2xl font-display font-bold text-white mb-2 text-center">Akses Admin</h2>
             <p class="text-slate-400 text-sm text-center mb-8">Pusat kontrol manajemen rental PlayStation.</p>
 
-            @if(session('error'))
+            <?php if(session('error')): ?>
                 <div class="bg-slate-800/80 border border-slate-700/50 text-slate-300 font-medium text-sm rounded-xl p-4 mb-6 relative text-center">
-                    {{ session('error') }}
+                    <?php echo e(session('error')); ?>
+
                 </div>
-            @endif
+            <?php endif; ?>
 
             <form method="POST" action="/admin/login" class="space-y-6">
-                @csrf
+                <?php echo csrf_field(); ?>
                 <div>
                     <label class="block text-xs font-bold tracking-widest text-slate-400 mb-2 uppercase">Email Admin</label>
                     <input type="email" name="email" placeholder="contoh@email.com" required autocomplete="off" class="w-full bg-slate-950 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-medium text-sm">
@@ -72,3 +73,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH C:\rental ps\resources\views/auth/admin_login.blade.php ENDPATH**/ ?>

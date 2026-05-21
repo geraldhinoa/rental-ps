@@ -52,11 +52,11 @@
             <span class="font-display font-bold text-xl text-white">Admin<span class="text-ps-neon">Panel</span></span>
         </div>
         <nav class="flex-1 px-4 py-6 space-y-2">
-            <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all {{ request()->is('admin/dashboard') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50' }}">
+            <a href="/admin/dashboard" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all <?php echo e(request()->is('admin/dashboard') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'); ?>">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 Dashboard
             </a>
-            <a href="/admin/bookings" class="flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-all group border {{ request()->is('admin/bookings*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50' }}">
+            <a href="/admin/bookings" class="flex items-center justify-between px-4 py-3 rounded-lg font-medium transition-all group border <?php echo e(request()->is('admin/bookings*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'); ?>">
                 <div class="flex items-center gap-3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                     Kelola Pesanan
@@ -67,24 +67,24 @@
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
                 </span>
             </a>
-            <a href="/admin/inventory" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all {{ request()->is('admin/inventory*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50' }}">
+            <a href="/admin/inventory" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all <?php echo e(request()->is('admin/inventory*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'); ?>">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
                 Inventaris Mesin
             </a>
-            <a href="/admin/promos" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all {{ request()->is('admin/promos*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50' }}">
+            <a href="/admin/promos" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all <?php echo e(request()->is('admin/promos*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'); ?>">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>
                 Kelola Promo
             </a>
-            <a href="/admin/customers" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all {{ request()->is('admin/customers*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50' }}">
+            <a href="/admin/customers" class="flex items-center gap-3 px-4 py-3 rounded-lg font-medium border transition-all <?php echo e(request()->is('admin/customers*') ? 'bg-blue-600/10 text-ps-neon border-blue-500/20' : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'); ?>">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m5 0v-5m0 0v-5m0 5H7m5-5H7"/></svg>
                 Pelanggan
             </a>
         </nav>
         <div class="p-4 border-t border-slate-800">
             <div class="flex items-center gap-3 px-2 mb-3">
-                <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-bold text-white uppercase">{{ substr(Auth::check() ? Auth::user()->name : 'A', 0, 1) }}</div>
+                <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-bold text-white uppercase"><?php echo e(substr(Auth::check() ? Auth::user()->name : 'A', 0, 1)); ?></div>
                 <div class="text-sm">
-                    <p class="text-white font-medium capitalize truncate max-w-[120px]">{{ Auth::check() ? Auth::user()->name : 'Administrator' }}</p>
+                    <p class="text-white font-medium capitalize truncate max-w-[120px]"><?php echo e(Auth::check() ? Auth::user()->name : 'Administrator'); ?></p>
                     <p class="text-slate-500 text-[11px] uppercase tracking-wider">Admin Panel</p>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         <header class="h-20 glass-panel border-l-0 border-t-0 border-r-0 border-slate-800 flex items-center justify-between px-8 z-10">
             <h2 class="text-lg font-semibold text-white">Ringkasan Hari Ini</h2>
             <div class="flex items-center gap-4">
-                <p class="text-sm text-slate-400">{{ date('d M Y') }}</p>
+                <p class="text-sm text-slate-400"><?php echo e(date('d M Y')); ?></p>
                 <div x-data="notificationSystem()" class="relative">
                     <audio x-ref="notificationSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
                     
@@ -140,7 +140,7 @@
 
         <!-- Content Area -->
         <div class="flex-1 overflow-y-auto p-8" id="admin-scroll-area">
-            @yield('content')
+            <?php echo $__env->yieldContent('content'); ?>
         </div>
     </main>
 
@@ -207,6 +207,7 @@
         });
     </script>
     
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH C:\rental ps\resources\views/layouts/admin.blade.php ENDPATH**/ ?>

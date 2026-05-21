@@ -3,10 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\BookingController;
+use App\Http\Controllers\Backend\AdminController;
 use App\Http\Middleware\AdminMiddleware;
+
+// === FRONTEND ROUTES ===
 
 // UI Publik
 Route::get('/', [HomeController::class, 'index']);
@@ -186,9 +188,10 @@ Route::get('/logout', function() {
 
 // Area Pelanggan (Dilindungi)
 Route::middleware(['auth'])->group(function () {
-    Route::get('/user/dashboard', [\App\Http\Controllers\UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/dashboard', [\App\Http\Controllers\Frontend\UserController::class, 'dashboard'])->name('user.dashboard');
 });
 
+// === BACKEND ROUTES ===
 // Area Admin (Dilindungi)
 Route::middleware([AdminMiddleware::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index']);
