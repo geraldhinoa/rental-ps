@@ -236,3 +236,5 @@ Route::middleware([AdminMiddleware::class])->group(function () {
     Route::delete('/admin/customers/bulk', [AdminController::class, 'bulkDestroyCustomers'])->name('admin.customers.bulkDestroy');
     Route::delete('/admin/customers/{id}', [AdminController::class, 'destroyCustomer'])->name('admin.customers.destroy');
 });
+
+// Update: Konfigurasi Git telah diperbarui menggunakan akun Geraldhinoa.
