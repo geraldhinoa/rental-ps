@@ -7,8 +7,8 @@
   --color-ps-neon: #3b82f6; /* Blue 500 */
   --color-ps-glow: #60a5fa; /* Blue 400 */
   
-  --font-family-display: 'Outfit', sans-serif;
-  --font-family-body: 'Inter', sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 @layer utilities {
